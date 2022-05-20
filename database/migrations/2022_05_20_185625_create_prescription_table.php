@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('prescription', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->integer('patient_id')->unsigned();
             $table->integer('doc_id')->unsigned();
             $table->foreign('patient_id')->references('id')->on('patient');

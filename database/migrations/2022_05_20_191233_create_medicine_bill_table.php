@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('medicine_bill', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->integer('doc_id')->unsigned();
             $table->foreign('doc_id')->references('id')->on('doctor');
             $table->integer('patient_id')->unsigned();
