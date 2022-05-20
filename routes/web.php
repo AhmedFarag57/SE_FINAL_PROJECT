@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,10 +54,8 @@ Route::get('/login', function() {
 
 
 
- Route::get('/doctors', function() {
-     return view('backend.doctors.index');
- })->name('doctors.index');
-
+ Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
+ Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show')->where('id', '[0-9]+');
  Route::get('/doctors/create', function() {
      return view('backend.doctors.create');
  })->name('doctors.create');

@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('profile_picture')->default('avatar.png');
-            $table->rememberToken();
+        Schema::create('pharmacy', function (Blueprint $table) {
+            $table->integer('medicine_id')->unsigned();
+            $table->foreign('medicine_id')->references('id')->on('medicine');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('pharmacy');
     }
 };
