@@ -15,13 +15,11 @@ return new class extends Migration
     {
         Schema::create('prescription', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('patient_id')->unsigned();
-            $table->integer('doc_id')->unsigned();
+            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('doc_id');
             $table->foreign('patient_id')->references('id')->on('patient');
             $table->foreign('doc_id')->references('id')->on('doctor');
-            $table->string('diagnosis');
-            $table->integer('medicine_bill_id')->unsigned();
-            $table->foreign('medicine_bill_id')->references('id')->on('medicine_bill');
+            $table->text('diagnosis');
             $table->timestamp('described_in');
             $table->timestamps();
         });

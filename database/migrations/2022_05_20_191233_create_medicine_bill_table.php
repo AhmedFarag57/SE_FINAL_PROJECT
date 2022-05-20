@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('medicine_bill', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('doc_id')->unsigned();
+            $table->unsignedBigInteger('doc_id');
             $table->foreign('doc_id')->references('id')->on('doctor');
-            $table->integer('patient_id')->unsigned();
+            $table->unsignedBigInteger('patient_id');
             $table->foreign('patient_id')->references('id')->on('patient');
-            $table->integer('prescription_id')->unsigned();
-            $table->foreign('prescription_id')->references('id')->on('prescription');
             $table->text('medicines_id');
             $table->decimal('total',9,3);
             $table->timestamps();

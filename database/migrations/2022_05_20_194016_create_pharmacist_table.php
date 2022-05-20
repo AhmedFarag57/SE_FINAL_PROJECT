@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pharmacist', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id')->unsigned();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('name');
             $table->enum('gender',['male', 'female']);

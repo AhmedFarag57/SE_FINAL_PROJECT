@@ -13,8 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        $tableNames = config('permission.table_names');
-        $columnNames = config('permission.column_names');
 
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
@@ -47,7 +45,7 @@ return new class extends Migration
         });
 
 
-        Schema::create('model_has_roles', function (Blueprint $table) use ($tableNames, $columnNames) {
+        Schema::create('model_has_roles', function (Blueprint $table) {
             $table->unsignedInteger('role_id');
 
             $table->string('model_type');
@@ -59,7 +57,7 @@ return new class extends Migration
                 ->on('roles')
                 ->onDelete('cascade');
 
-            $table->primary(['role_id', $columnNames['model_morph_key'], 'model_type'],
+            $table->primary(['role_id', 'model_morph_key', 'model_type'],
                     'model_has_roles_role_model_type_primary');
         });
 
