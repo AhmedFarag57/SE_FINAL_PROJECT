@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nurse', function (Blueprint $table) {
+        Schema::create('nurses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
-            $table->string('ph-num');
+            $table->string('phone');
             $table->decimal('salary',9,3);
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nurse');
+        Schema::dropIfExists('nurses');
     }
 };

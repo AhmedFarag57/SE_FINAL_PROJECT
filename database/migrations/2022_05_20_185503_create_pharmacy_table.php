@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pharmacy', function (Blueprint $table) {
             $table->unsignedBigInteger('medicine_id');
-            $table->foreign('medicine_id')->references('id')->on('medicine');
+            $table->foreign('medicine_id')->references('id')->on('medicines');
             $table->integer('quantity');
             $table->timestamps();
         });

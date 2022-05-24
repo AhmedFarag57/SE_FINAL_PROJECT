@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('medicine_bill', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('doc_id');
-            $table->foreign('doc_id')->references('id')->on('doctor');
-            $table->unsignedBigInteger('patient_id');
-            $table->foreign('patient_id')->references('id')->on('patient');
-            $table->text('medicines_id');
-            $table->decimal('total',9,3);
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medicine_bill');
+        Schema::dropIfExists('departments');
     }
 };

@@ -1,7 +1,10 @@
 <?php
 
-use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DoctorsController;
+use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\PharmacistsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +31,7 @@ Route::get('/', function() {
     return view('home');
 })->name('home');
 
-Route::get('/login', function() {
-    return view('auth.login');
-});
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 
 
@@ -53,9 +54,26 @@ Route::get('/login', function() {
  })->name('permission.create');
 
 
+// Doctors
+ Route::get('/doctors', [DoctorsController::class, 'index'])->name('doctors.index');
+ Route::get('/doctors/{id}', [DoctorsController::class, 'show'])->name('doctors.show')->where('id', '[0-9]+');
+ Route::get('/doctors/create', [DoctorsController::class, 'create'])->name('doctors.create');
+ Route::post('/doctors/store', [DoctorsController::class, 'store']);
 
- Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
- Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show')->where('id', '[0-9]+');
- Route::get('/doctors/create', function() {
-     return view('backend.doctors.create');
- })->name('doctors.create');
+// Patients
+ Route::get('/patients', [PatientsController::class, 'index'])->name('patients.index');
+ Route::get('/patients/{id}', [PatientsController::class, 'show'])->name('patients.show')->where('id', '[0-9]+');
+ Route::get('/patients/create', [PatientsController::class, 'create'])->name('patients.create');
+ Route::post('/patients/store', [PatientsController::class, 'store']);
+
+ // Nurses
+ Route::get('/nurses', [NursesController::class, 'index'])->name('nurses.index');
+ Route::get('/nurses/{id}', [NursesController::class, 'show'])->name('nurses.show')->where('id', '[0-9]+');
+ Route::get('/nurses/create', [NursesController::class, 'create'])->name('nurses.create');
+ Route::post('/nurses/store', [NursesController::class, 'store']);
+
+ // Pharmacists
+ Route::get('/pharmacists', [PharmacistsController::class, 'index'])->name('pharmacists.index');
+ Route::get('/pharmacists/{id}', [PharmacistsController::class, 'show'])->name('pharmacists.show')->where('id', '[0-9]+');
+ Route::get('/pharmacists/create', [PharmacistsController::class, 'create'])->name('pharmacists.create');
+ Route::post('/pharmacists/store', [PharmacistsController::class, 'store']);

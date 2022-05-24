@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="roles-permissions">
+
         <div class="flex items-center justify-between mb-6">
             <div>
                 <h2 class="text-gray-700 uppercase font-bold">Doctors</h2>
@@ -13,26 +15,28 @@
                 </a>
             </div>
         </div>
+
+
         <div class="mt-8 bg-white rounded border-b-4 border-gray-300">
+
             <div class="flex flex-wrap items-center uppercase text-sm font-semibold bg-gray-300 text-gray-600 rounded-tl rounded-tr">
                 <div class="w-2/12 px-4 py-3">Name</div>
-                <div class="w-3/12 px-4 py-3">Email</div>
-                <div class="w-3/12 px-4 py-3">---</div>
+                <div class="w-3/12 px-4 py-3">Department</div>
+                <div class="w-3/12 px-4 py-3">Period</div>
                 <div class="w-2/12 px-4 py-3">Phone</div>
                 <div class="w-2/12 px-4 py-3 text-right">Action</div>
             </div>
-            {{-- @foreach ($doctors as $doctor) --}}
+
+            @foreach ($doctors as $doctor)
+            
                 <div class="flex flex-wrap items-center text-gray-700 border-t-2 border-l-4 border-r-4 border-gray-300">
-                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{-- $doctor->user->name --}}Ahmed Farag</div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{-- $doctor->user->email --}}AhmedFarag@gmail.com</div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
-                        {{-- @foreach ($doctor->--- as $---) --}}
-                            <span class="bg-gray-200 text-sm mr-1 mb-1 px-2 border rounded-full">{{-- $--> --}}</span>
-                        {{-- @endforeach --}}
-                    </div>
-                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{-- $doctor->phone --}}01005885834</div>
+
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $doctor->name }}</div>
+                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $doctor->department }}</div>
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $doctor->period}}</div>
+                    <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $doctor->phone }}</div>
                     <div class="w-2/12 flex items-center justify-end px-3">
-                        <a href="{{-- route('doctors.edit',$doctor->id) --}}">
+                        <a href="/doctors/{{ $doctor->id }}">
                             <svg class="h-6 w-6 fill-current text-gray-600" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-square" class="svg-inline--fa fa-pen-square fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M400 480H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zM238.1 177.9L102.4 313.6l-6.3 57.1c-.8 7.6 5.6 14.1 13.3 13.3l57.1-6.3L302.2 242c2.3-2.3 2.3-6.1 0-8.5L246.7 178c-2.5-2.4-6.3-2.4-8.6-.1zM345 165.1L314.9 135c-9.4-9.4-24.6-9.4-33.9 0l-23.1 23.1c-2.3 2.3-2.3 6.1 0 8.5l55.5 55.5c2.3 2.3 6.1 2.3 8.5 0L345 199c9.3-9.3 9.3-24.5 0-33.9z"></path></svg>
                         </a>
                         <a href="{{-- route('doctors.destroy',$doctor->id) --}}" data-url="{{-- route('doctor.destroy',$doctor->id) --}}" class="deletebtn ml-1 bg-gray-600 block p-1 border border-gray-600 rounded-sm">
@@ -40,15 +44,21 @@
                         </a>
                     </div>
                 </div>
-            {{-- @endforeach --}}
-        </div>
-        <div class="mt-8">
-            {{-- $doctors->links() --}}
+
+            @endforeach
+
         </div>
 
-        {{-- @include('backend.modals.delete',['name' => 'doctor']) --}}
+        <div class="mt-8">
+            {{-- {{ $doctors->links() }} --}}
+        </div>
+
+        {{-- {{ @include('backend.modals.delete',['name' => 'doctor']) }} --}}
+
     </div>
+
 @endsection
+
 
 @push('scripts')
 <script>

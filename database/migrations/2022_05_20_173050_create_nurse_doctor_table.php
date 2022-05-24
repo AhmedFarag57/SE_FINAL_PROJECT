@@ -18,8 +18,8 @@ return new class extends Migration
         Schema::create('nurse_doctor', function (Blueprint $table) {
             $table->unsignedBigInteger('doc_id');
             $table->unsignedBigInteger('nur_id');
-            $table->foreign('doc_id')->references('id')->on('doctor');
-            $table->foreign('nur_id')->references('id')->on('nurse');
+            $table->foreign('doc_id')->references('id')->on('doctors');
+            $table->foreign('nur_id')->references('id')->on('nurses');
             $table->primary(['doc_id', 'nur_id']);
             $table->timestamps();
         });

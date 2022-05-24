@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pharmacist', function (Blueprint $table) {
+        Schema::create('prescriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('name');
-            $table->enum('gender',['male', 'female']);
-            $table->decimal('salary',9,3);
-            $table->string('ph-num');
-            $table->string('address');
-            $table->string('period');
+            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('doc_id');
+            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('doc_id')->references('id')->on('doctors');
+            $table->text('diagnosis');
+            $table->timestamp('described_in');
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pharmacist');
+        Schema::dropIfExists('prescriptions');
     }
 };

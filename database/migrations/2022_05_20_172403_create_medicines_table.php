@@ -13,16 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('receptionist', function (Blueprint $table) {
+        Schema::create('medicines', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->string('name');
-            $table->enum('gender',['male', 'female']);
-            $table->decimal('salary',9,3);
-            $table->string('ph-num');
-            $table->string('address');
-            $table->string('period');
+            $table->string('manufacturar');
+            $table->decimal('price', 9, 3);
             $table->timestamps();
         });
     }
@@ -34,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('receptionist');
+        Schema::dropIfExists('medicines');
     }
 };
