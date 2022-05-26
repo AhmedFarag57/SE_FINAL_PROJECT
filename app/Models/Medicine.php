@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Nurse extends Model
+class Medicine extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'gender',
-        'address',
-        'phone',
-        'salary',
-        'dateofbirth'
+        'manufacturar',
+        'price'
     ];
 
     // Relationship to

@@ -14,11 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('medicine_bills', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('doc_id');
-            $table->foreign('doc_id')->references('id')->on('doctors');
-            $table->unsignedBigInteger('patient_id');
-            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->id();
+            $table->foreignId('doc_id');
+            $table->foreignId('patient_id');
             $table->text('medicines_id');
             $table->decimal('total',9,3);
             $table->timestamps();

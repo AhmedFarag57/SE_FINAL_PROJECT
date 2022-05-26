@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('nurses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->enum('gender', ['male', 'female']);
             $table->string('address');
             $table->string('phone');
+            $table->date('dateofbirth');
             $table->decimal('salary',9,3);
             $table->timestamps();
         });

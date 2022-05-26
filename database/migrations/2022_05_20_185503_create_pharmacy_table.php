@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pharmacy', function (Blueprint $table) {
-            $table->unsignedBigInteger('medicine_id');
-            $table->foreign('medicine_id')->references('id')->on('medicines');
+            $table->foreignId('medicine_id');
             $table->integer('quantity');
             $table->timestamps();
         });

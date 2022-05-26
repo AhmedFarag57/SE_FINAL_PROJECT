@@ -16,9 +16,10 @@ class DoctorsController extends Controller
     {
         // use DB;
         // $doctors = DB::select('SELECT * FROM docotrs');
-        $doctors = Doctor::all();
-        //$doctors = Doctor::
-        //return $doctors;
+
+        $doctors = Doctor::orderBy('id', 'asc')->paginate(10);
+
+        //$doctors = Doctor::all();
         return view('backend.doctors.index')->with('doctors', $doctors);
     }
 
@@ -40,7 +41,17 @@ class DoctorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required'
+        ]);
+
+        $doctor = new Doctor;
+        $doctor->name = $request->input('name');
+
+        $doctor->save();
+
+        return redirect('/doctors')->with('success', 'Doctor Created');
     }
 
     /**
@@ -63,7 +74,8 @@ class DoctorsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $doctor = Doctor::find($id);
+        return view('backend.doctors.edit')->with('doctor', $doctor);
     }
 
     /**
@@ -75,7 +87,18 @@ class DoctorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required'
+        ]);
+
+        $doctor = Doctor::find($id);
+        $doctor->name = $request->input('name');
+
+        $doctor->save();
+
+        return redirect('/doctors')->with('success', 'Doctor Updated');
     }
 
     /**
@@ -86,6 +109,8 @@ class DoctorsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doctor = Doctor::find($id);
+        $doctor->delete();
+        return redirect('/doctors')->with('success', 'Doctor Deleted');
     }
 }
