@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('medicine_bills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doc_id');
-            $table->foreignId('patient_id');
+            $table->foreignId('prescription_id');
             $table->text('medicines_id');
             $table->decimal('total',9,3);
             $table->timestamps();
