@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Doctor;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorsController extends Controller
 {
@@ -17,9 +20,10 @@ class DoctorsController extends Controller
         // use DB;
         // $doctors = DB::select('SELECT * FROM docotrs');
 
-        $doctors = Doctor::orderBy('id', 'asc')->paginate(10);
-
         //$doctors = Doctor::all();
+        
+
+        $doctors = Doctor::orderBy('id', 'asc')->paginate(10);
         return view('backend.doctors.index')->with('doctors', $doctors);
     }
 
@@ -42,15 +46,47 @@ class DoctorsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required',
+            'period' => 'required|string',
         ]);
 
-        $doctor = new Doctor;
-        $doctor->name = $request->input('name');
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
 
-        $doctor->save();
+        if($request->hasFile('profile_picture')){
+            $profile = Str::slug($request->name) . '-' . $user->id . '.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $profile);
+        }
+        else {
+            $profile = 'avatar.png';
+        }
 
+        $user->update([
+            'profile_picture' => $profile
+        ]);
+
+
+        $user->doctor()->create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dateofbirht' => $request->dateofbirth,
+            'address' => $request->address,
+            'salary' => $request->salary,
+            'period' => $request->period
+        ]);
+
+        $user->assignRole('Doctor');
+        
         return redirect('/doctors')->with('success', 'Doctor Created');
     }
 

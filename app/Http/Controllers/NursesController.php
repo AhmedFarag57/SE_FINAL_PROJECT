@@ -14,7 +14,7 @@ class NursesController extends Controller
      */
     public function index()
     {
-        $nurses = Nurse::all();
+        $nurses = Nurse::orderBy('id', 'asc')->paginate(10);
         return view('backend.nurses.index')->with('nurses', $nurses);
     }
 

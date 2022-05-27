@@ -27,6 +27,7 @@ use App\Http\Controllers\PharmacistsController;
 //     return view('layouts.app');
 // });
 
+
 Route::get('/', function() {
     return view('home');
 })->name('home');
@@ -80,4 +81,16 @@ Route::post('/nurses/store', [NursesController::class, 'store']);
 Route::get('/pharmacists', [PharmacistsController::class, 'index'])->name('pharmacists.index');
 Route::get('/pharmacists/{id}', [PharmacistsController::class, 'show'])->name('pharmacists.show')->where('id', '[0-9]+');
 Route::get('/pharmacists/create', [PharmacistsController::class, 'create'])->name('pharmacists.create');
-Route::post('/pharmacists/store', [PharmacistsController::class, 'store']);
+Route::post('/pharmacists/store', [PharmacistsController::class, 'store'])->name('pharmacists.store');
+Route::get('/pharmacists/{id}/edit', [PharmacistsController::class, 'edit'])->name('pharmacists.edit');
+Route::put('/pharmacists/{id}/update', [PharmacistsController::class, 'update'])->name('pharmacists.update');
+Route::delete('/pharmacists/{id}/destroy', [PharmacistsController::class, 'destroy'])->name('pharmacists.destroy');
+
+// Receptionists
+Route::get('/receptionists', [ReceptionistsController::class, 'index'])->name('receptionists.index');
+Route::get('/receptionists/{id}', [ReceptionistsController::class, 'show'])->name('receptionists.show')->where('id', '[0-9]+');
+Route::get('/receptionists/create', [ReceptionistsController::class, 'create'])->name('receptionists.create');
+Route::post('/receptionists/store', [ReceptionistsController::class, 'store'])->name('receptionists.store');
+Route::get('/receptionists/{id}/edit', [ReceptionistsController::class, 'edit'])->name('receptionists.edit');
+Route::put('/receptionists/{id}/update', [ReceptionistsController::class, 'update'])->name('receptionists.update');
+Route::delete('/receptionists/{id}/destroy', [ReceptionistsController::class, 'destroy'])->name('receptionists.destroy');

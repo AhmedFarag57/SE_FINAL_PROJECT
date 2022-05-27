@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pharmacist;
+use App\Models\Receptionist;
 use Illuminate\Http\Request;
 
-class PharmacistsController extends Controller
+class ReceptionistsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class PharmacistsController extends Controller
      */
     public function index()
     {
-        $pharmacists = Pharmacist::orderBy('id', 'asc')->paginate(10);
-        return view('backend.pharmacists.index')->with('pharmacists', $pharmacists);
+        $receptionists = Receptionist::orderBy('id', 'asc')->paginate(10);
+        return view('backend.receptionists.index')->with('receptionists', $receptionists);
     }
 
     /**
@@ -47,8 +47,7 @@ class PharmacistsController extends Controller
      */
     public function show($id)
     {
-        $pharmacist = Pharmacist::find($id);
-        return view('backend.pharmacists.show')->with('pharmacist', $pharmacist);
+        //
     }
 
     /**

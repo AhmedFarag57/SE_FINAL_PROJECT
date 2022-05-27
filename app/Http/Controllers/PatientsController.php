@@ -14,7 +14,7 @@ class PatientsController extends Controller
      */
     public function index()
     {
-        $patients = Patient::all();
+        $patients = Patient::orderBy('id', 'asc')->paginate(10);
         return view('backend.patients.index')->with('patients', $patients);
     }
 
