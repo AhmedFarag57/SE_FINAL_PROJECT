@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NursesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PharmacistsController;
+use App\Http\Controllers\ReceptionistsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +62,9 @@ Route::get('/doctors', [DoctorsController::class, 'index'])->name('doctors.index
 Route::get('/doctors/{id}', [DoctorsController::class, 'show'])->name('doctors.show')->where('id', '[0-9]+');
 Route::get('/doctors/create', [DoctorsController::class, 'create'])->name('doctors.create');
 Route::post('/doctors/store', [DoctorsController::class, 'store'])->name('doctors.store');
-Route::get('/doctors/{id}/edit', [DoctorsController::class, 'edit'])->name('doctors.edit');
-Route::put('/doctors/{id}/update', [DoctorsController::class, 'update'])->name('doctors.update');
-Route::delete('/doctors/{id}/destroy', [DoctorsController::class, 'destroy'])->name('doctors.destroy');
+Route::get('/doctors/{id}/edit', [DoctorsController::class, 'edit'])->name('doctors.edit')->where('id', '[0-9]+');
+Route::put('/doctors/{id}/update', [DoctorsController::class, 'update'])->name('doctors.update')->where('id', '[0-9]+');
+Route::delete('/doctors/{id}/destroy', [DoctorsController::class, 'destroy'])->name('doctors.destroy')->where('id', '[0-9]+');
 
 
 // Patients

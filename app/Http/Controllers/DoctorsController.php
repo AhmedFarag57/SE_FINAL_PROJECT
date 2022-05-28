@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\User;
 use App\Models\Doctor;
 use Illuminate\Support\Str;
@@ -34,7 +35,8 @@ class DoctorsController extends Controller
      */
     public function create()
     {
-        return view('backend.doctors.create');
+        $departments = Department::all();
+        return view('backend.doctors.create')->with('departments', $departments);
     }
 
     /**
@@ -53,8 +55,9 @@ class DoctorsController extends Controller
             'gender' => 'required|string',
             'dateofbirth' => 'required|date',
             'address' => 'required|string|max:255',
-            'salary' => 'required',
+            'salary' => 'required|numeric',
             'period' => 'required|string',
+            'dep_id' => 'required|numeric'
         ]);
 
         $user = User::create([
@@ -79,15 +82,16 @@ class DoctorsController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
-            'dateofbirht' => $request->dateofbirth,
+            'dateofbirth' => $request->dateofbirth,
             'address' => $request->address,
             'salary' => $request->salary,
-            'period' => $request->period
+            'period' => $request->period,
+            'dep_id' => $request->dep_id
         ]);
 
-        $user->assignRole('Doctor');
+        //$user->assignRole('Doctor');
         
-        return redirect('/doctors')->with('success', 'Doctor Created');
+        return redirect('/doctors');
     }
 
     /**
@@ -111,7 +115,11 @@ class DoctorsController extends Controller
     public function edit($id)
     {
         $doctor = Doctor::find($id);
-        return view('backend.doctors.edit')->with('doctor', $doctor);
+        $departments = Department::all();
+        return view('backend.doctors.edit')->with([
+            'doctor' => $doctor,
+            'departments' => $departments
+        ]);
     }
 
     /**
@@ -123,18 +131,48 @@ class DoctorsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $doctor = Doctor::find($id);
         
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users,email,'.$doctor->user_id,
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string',
+            'dep_id' => 'required|numeric'
         ]);
 
-        $doctor = Doctor::find($id);
-        $doctor->name = $request->input('name');
+        $user = User::findOrFail($doctor->user_id);
 
-        $doctor->save();
+        if($request->hasFile('profile_picture')){
+            $profile = Str::slug($request->name) . '-' . $user->id . '.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $profile);
+        }
+        else {
+            $profile = $user->profile_picture;
+        }
 
-        return redirect('/doctors')->with('success', 'Doctor Updated');
+        $user->update([
+            'email' => $request->email,
+            'profile_picture' => $profile
+        ]);
+
+
+        $user->doctor()->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'salary' => $request->salary,
+            'period' => $request->period,
+            'dep_id' => $request->dep_id
+        ]);
+
+        return redirect('/doctors');
     }
 
     /**
@@ -146,7 +184,20 @@ class DoctorsController extends Controller
     public function destroy($id)
     {
         $doctor = Doctor::find($id);
-        $doctor->delete();
-        return redirect('/doctors')->with('success', 'Doctor Deleted');
+        $user = User::findOrFail($doctor->user_id);
+
+        $user->doctor()->delete();
+
+        //$user->removeRole('Doctor');
+        if ($user->delete()) {
+            if($user->profile_picture != 'avatar.png') {
+                $image_path = public_path() . '/images/profile/' . $user->profile_picture;
+                if (is_file($image_path) && file_exists($image_path)) {
+                    unlink($image_path);
+                }
+            }
+        }
+        
+        return redirect('/doctors');
     }
 }

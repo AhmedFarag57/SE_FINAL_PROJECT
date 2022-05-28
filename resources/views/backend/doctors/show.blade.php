@@ -26,7 +26,7 @@
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3"></div>
                     <div class="md:w-2/3">
-                        {{-- <img class="w-20 h-20 sm:w-32 sm:h-32 rounded" src="{{ asset('images/profile/' .$doctor->user->profile_picture) }}" alt="avatar"> --}}
+                        <img class="w-20 h-20 sm:w-32 sm:h-32 rounded" src="{{ asset('images/profile/' .$doctor->user->profile_picture) }}" alt="avatar">
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                     </div>
                     <div class="md:w-2/3">
                         <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            {{-- $doctor->user->email --}}
+                            {{ $doctor->user->email }}
                         </div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                     </div>
                     <div class="md:w-2/3">
                         <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            {{ $doctor->department }}
+                            {{ $doctor->department->name }}
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,13 @@
                     </div>
                     <div class="md:w-2/3">
                         <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            {{ $doctor->period }}
+                            @if($doctor->period == "8to4")
+                                8:00am - 4:00pm
+                            @elseif ($doctor->period == "4to12")
+                                4:00pm - 12:00am
+                            @elseif ($doctor->period == "12to8")
+                                12:00am - 8:00am
+                            @endif
                         </div>
                     </div>
                 </div>

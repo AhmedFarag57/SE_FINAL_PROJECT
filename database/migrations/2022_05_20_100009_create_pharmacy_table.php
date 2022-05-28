@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('medicine_bills', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('prescription_id');
-            $table->text('medicines_id');
-            $table->decimal('total',9,3);
+        Schema::create('pharmacy', function (Blueprint $table) {
+            $table->foreignId('medicine_id')->constrained()->onDelete('cascade');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medicine_bills');
+        Schema::dropIfExists('pharmacy');
     }
 };
