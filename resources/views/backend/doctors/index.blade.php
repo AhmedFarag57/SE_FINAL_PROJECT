@@ -36,11 +36,11 @@
                     <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $doctor->department->name }}</div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         @if($doctor->period == "8to4")
-                            8:00am - 4:00pm
+                            8:00 am - 4:00 pm
                         @elseif ($doctor->period == "4to12")
-                            4:00pm - 12:00am
+                            4:00 pm - 12:00 am
                         @elseif ($doctor->period == "12to8")
-                            12:00am - 8:00am
+                            12:00 am - 8:00 am
                         @endif
                     </div>
                     <div class="w-2/12 flex items-center justify-end px-3">

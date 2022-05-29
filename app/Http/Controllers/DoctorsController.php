@@ -36,6 +36,11 @@ class DoctorsController extends Controller
     public function create()
     {
         $departments = Department::all();
+
+        if($departments->isEmpty()){
+            return redirect('/departments/create');
+        }
+        
         return view('backend.doctors.create')->with('departments', $departments);
     }
 

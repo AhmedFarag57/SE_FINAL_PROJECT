@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Nurse;
+use App\Models\nurse;
 use Illuminate\Http\Request;
 
 class NursesController extends Controller
@@ -18,14 +18,14 @@ class NursesController extends Controller
         return view('backend.nurses.index')->with('nurses', $nurses);
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('backend.nurses.create');
     }
 
     /**
@@ -36,7 +36,30 @@ class NursesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string'
+        ]);
+
+        
+        $nurse = new Nurse;
+
+        $nurse->name = $request->input('name');
+        $nurse->phone = $request->input('phone');
+        $nurse->gender = $request->input('gender');
+        $nurse->dateofbirth = $request->input('dateofbirth');
+        $nurse->salary = $request->input('salary');
+        $nurse->address = $request->input('address');
+        $nurse->period = $request->input('period');
+
+        $nurse->save();
+        
+        return redirect('/nurses');
     }
 
     /**
@@ -59,7 +82,8 @@ class NursesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $nurse = Nurse::find($id);
+        return view('backend.nurses.edit')->with('nurse', $nurse);
     }
 
     /**
@@ -71,7 +95,30 @@ class NursesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string'
+        ]);
+
+        
+        $nurse = Nurse::find($id);
+
+        $nurse->name = $request->input('name');
+        $nurse->phone = $request->input('phone');
+        $nurse->gender = $request->input('gender');
+        $nurse->dateofbirth = $request->input('dateofbirth');
+        $nurse->salary = $request->input('salary');
+        $nurse->address = $request->input('address');
+        $nurse->period = $request->input('period');
+
+        $nurse->save();
+        
+        return redirect('/nurses');
     }
 
     /**
@@ -82,6 +129,9 @@ class NursesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $nurse = Nurse::find($id);
+        $nurse->delete();
+
+        return redirect('/nurses');
     }
 }

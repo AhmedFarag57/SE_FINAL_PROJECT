@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone');
             $table->date('dateofbirth');
             $table->decimal('salary',9,3);
+            $table->string('period');
             $table->timestamps();
         });
     }

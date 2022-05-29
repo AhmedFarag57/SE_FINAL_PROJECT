@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pharmacist;
+
+use App\Models\User;
+use App\Models\pharmacist;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class PharmacistsController extends Controller
 {
@@ -25,7 +30,7 @@ class PharmacistsController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.pharmacists.create');
     }
 
     /**
@@ -36,7 +41,49 @@ class PharmacistsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string'
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        if($request->hasFile('profile_picture')){
+            $profile = Str::slug($request->name) . '-' . $user->id . '.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $profile);
+        }
+        else {
+            $profile = 'avatar.png';
+        }
+
+        $user->update([
+            'profile_picture' => $profile
+        ]);
+
+
+        $user->pharmacist()->create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'salary' => $request->salary,
+            'period' => $request->period
+        ]);
+
+        //$user->assignRole('pharmacists');
+        
+        return redirect('/pharmacists');
     }
 
     /**
@@ -59,7 +106,9 @@ class PharmacistsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pharmacist = Pharmacist::find($id);
+        return view('backend.pharmacists.edit')->with('pharmacist', $pharmacist);
+        
     }
 
     /**
@@ -71,7 +120,47 @@ class PharmacistsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pharmacist = Pharmacist::find($id);
+        
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users,email,'.$pharmacist->user_id,
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string'
+        ]);
+
+        $user = User::findOrFail($pharmacist->user_id);
+
+        if($request->hasFile('profile_picture')){
+            $profile = Str::slug($request->name) . '-' . $user->id . '.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $profile);
+        }
+        else {
+            $profile = $user->profile_picture;
+        }
+
+        $user->update([
+            'email' => $request->email,
+            'profile_picture' => $profile
+        ]);
+
+
+        $user->pharmacist()->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'salary' => $request->salary,
+            'period' => $request->period,
+            
+        ]);
+
+        return redirect('/pharmacists');
     }
 
     /**
@@ -82,6 +171,22 @@ class PharmacistsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pharmacist = Pharmacist::find($id);
+        $user = User::findOrFail($pharmacist->user_id);
+
+        $user->pharmacist()->delete();
+
+        //$user->removeRole('Pharmacist');
+        
+        if ($user->delete()) {
+            if($user->profile_picture != 'avatar.png') {
+                $image_path = public_path() . '/images/profile/' . $user->profile_picture;
+                if (is_file($image_path) && file_exists($image_path)) {
+                    unlink($image_path);
+                }
+            }
+        }
+        
+        return redirect('/pharmacists');
     }
 }

@@ -36,7 +36,28 @@ class PatientsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'ssn' => 'required|numeric',
+            'phone' => 'required|string|max:11',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255'
+        ]);
+
+        
+        $patient = new Patient;
+
+        $patient->name = $request->input('name');
+        $patient->ssn = $request->input('ssn');
+        $patient->phone = $request->input('phone');
+        $patient->gender = $request->input('gender');
+        $patient->dateofbirth = $request->input('dateofbirth');
+        $patient->address = $request->input('address');
+        
+        $patient->save();
+        
+        return redirect('/patients');
     }
 
     /**
@@ -59,7 +80,8 @@ class PatientsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $patient = Patient::find($id);
+        return view('backend.patients.edit')->with('patient', $patient);
     }
 
     /**
@@ -71,7 +93,28 @@ class PatientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'ssn' => 'required|numeric',
+            'phone' => 'required|string|max:11|min:11',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255'
+        ]);
+
+        
+        $patient = Patient::find($id);
+
+        $patient->name = $request->input('name');
+        $patient->ssn = $request->input('ssn');
+        $patient->phone = $request->input('phone');
+        $patient->gender = $request->input('gender');
+        $patient->dateofbirth = $request->input('dateofbirth');
+        $patient->address = $request->input('address');
+        
+        $patient->save();
+        
+        return redirect('/patients');
     }
 
     /**
@@ -82,6 +125,9 @@ class PatientsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $patient = Patient::find($id);
+        $patient->delete();
+
+        return redirect('/patients');
     }
 }

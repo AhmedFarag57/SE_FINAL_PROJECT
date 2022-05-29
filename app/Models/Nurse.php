@@ -15,7 +15,8 @@ class Nurse extends Model
         'address',
         'phone',
         'salary',
-        'dateofbirth'
+        'dateofbirth',
+        'period'
     ];
 
     // Relationship to
