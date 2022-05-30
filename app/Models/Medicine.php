@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class Medicine extends Model
 {
@@ -15,5 +16,8 @@ class Medicine extends Model
         'price'
     ];
 
-    // Relationship to
+    // Relationship to Pharmacy
+    public function pharmacy(){
+        return $this->belongsTo(Pharmacy::class, 'medicine_id');
+    }
 }
