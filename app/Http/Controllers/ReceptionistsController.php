@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+/**use App\Models\Department;*/
+use App\Models\User;
 use App\Models\Receptionist;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ReceptionistsController extends Controller
 {
@@ -14,6 +18,12 @@ class ReceptionistsController extends Controller
      */
     public function index()
     {
+        // use DB;
+        // $receptionists = DB::select('SELECT * FROM receptionists');
+
+        //$receptionists = Receptionist::all();
+        
+
         $receptionists = Receptionist::orderBy('id', 'asc')->paginate(10);
         return view('backend.receptionists.index')->with('receptionists', $receptionists);
     }
@@ -23,10 +33,11 @@ class ReceptionistsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    /**  public function create()
+   * {
+    *    $departments = Department::all();
+    *    return view('backend.doctors.create')->with('departments', $departments);
+    *}*/
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +47,51 @@ class ReceptionistsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string'
+           
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        if($request->hasFile('profile_picture')){
+            $profile = Str::slug($request->name) . '-' . $user->id . '.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $profile);
+        }
+        else {
+            $profile = 'avatar.png';
+        }
+
+        $user->update([
+            'profile_picture' => $profile
+        ]);
+
+
+        $user->receptionist()->create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'salary' => $request->salary,
+            'period' => $request->period
+            /**'dep_id' => $request->dep_id*/
+        ]);
+
+        //$user->assignRole('Receptionist');
+        
+        return redirect('/receptionists');
     }
 
     /**
@@ -47,7 +102,8 @@ class ReceptionistsController extends Controller
      */
     public function show($id)
     {
-        //
+        $receptionist =  Receptionist::find($id);
+        return view('backend.receptionists.show')->with('receptionist', $receptionist);
     }
 
     /**
@@ -58,7 +114,12 @@ class ReceptionistsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $receptionist = Receptionist::find($id);
+       /**  $departments = Department::all();*/
+        return view('backend.receptionists.edit')->with([
+            'receptionist' => $receptionist,
+         /**  'departments' => $departments*/
+        ]);
     }
 
     /**
@@ -70,7 +131,48 @@ class ReceptionistsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $receptionist = Receptionist::find($id);
+        
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255|unique:users,email,'.$receptionist->user_id,
+            'phone' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'period' => 'required|string',
+            /**'dep_id' => 'required|numeric'*/
+        ]);
+
+        $user = User::findOrFail($receptionist->user_id);
+
+        if($request->hasFile('profile_picture')){
+            $profile = Str::slug($request->name) . '-' . $user->id . '.'.$request->profile_picture->getClientOriginalExtension();
+            $request->profile_picture->move(public_path('images/profile'), $profile);
+        }
+        else {
+            $profile = $user->profile_picture;
+        }
+
+        $user->update([
+            'email' => $request->email,
+            'profile_picture' => $profile
+        ]);
+
+
+        $user->receptionist()->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'salary' => $request->salary,
+            'period' => $request->period,
+           /**  'dep_id' => $request->dep_id*/
+        ]);
+
+        return redirect('/receptionists');
     }
 
     /**
@@ -81,6 +183,21 @@ class ReceptionistsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $receptionist = Receptionist::find($id);
+        $user = User::findOrFail($receptionist->user_id);
+
+        $user->receptionist()->delete();
+
+        //$user->removeRole('Receptionist');
+        if ($user->delete()) {
+            if($user->profile_picture != 'avatar.png') {
+                $image_path = public_path() . '/images/profile/' . $user->profile_picture;
+                if (is_file($image_path) && file_exists($image_path)) {
+                    unlink($image_path);
+                }
+            }
+        }
+        
+        return redirect('/receptionists');
     }
 }
