@@ -1,11 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NursesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PharmacistsController;
 use App\Http\Controllers\ReceptionistsController;
 
@@ -21,41 +23,28 @@ use App\Http\Controllers\ReceptionistsController;
 */
 
 
-// The Route to Home page for all Site
-// Route::get('/', function () {
-//     return redirect('/login');
-// });
-
-// Route::get('/', function() {
-//     return view('layouts.app');
-// });
-
-
 Route::get('/', function() {
-    return view('home');
-})->name('home');
+    return redirect('/login');
+});
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Auth::routes();
 
+//Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-
-Route::get('/assignRole', function() {
-    return view('backend.assignrole.index');
-})->name('assignrole.index');
-
-Route::get('/assignRole/create', function() {
-    return view('backend.assignrole.create');
-})->name('assignrole.create');
-
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('/profile/edit', [HomeController::class, 'profileEdit'])->name('profile.edit');
+Route::put('/profile/update', [HomeController::class, 'profileUpdate'])->name('profile.update');
+Route::get('/profile/changepassword', [HomeController::class, 'changePassword'])->name('profile.change.password');
+Route::post('/profile/changepassword', [HomeController::class, 'updatePassword'])->name('profile.changepassword');
 
 
-Route::get('/roles-permissions', function() {
-    return view('backend.permissions.edit');
-})->name('roles-permissions');
+Route::group(['middleware' => ['auth', 'role:Admin']], function() {
 
-Route::get('/permission/create', function() {
-    return view('backend.permissions.create');
-})->name('permission.create');
+
+
+    
+});
 
 
 // Doctors
@@ -111,3 +100,22 @@ Route::post('/departments/store', [DepartmentsController::class, 'store'])->name
 Route::get('/departments/{id}/edit', [DepartmentsController::class, 'edit'])->name('departments.edit')->where('id', '[0-9]+');
 Route::put('/departments/{id}/update', [DepartmentsController::class, 'update'])->name('departments.update')->where('id', '[0-9]+');
 Route::delete('/departments/{id}/destroy', [DepartmentsController::class, 'destroy'])->name('departments.destroy')->where('id', '[0-9]+');
+
+
+Route::get('/assignRole', function() {
+    return view('backend.assignrole.index');
+})->name('assignrole.index');
+
+Route::get('/assignRole/create', function() {
+    return view('backend.assignrole.create');
+})->name('assignrole.create');
+
+
+
+Route::get('/roles-permissions', function() {
+    return view('backend.permissions.edit');
+})->name('roles-permissions');
+
+Route::get('/permission/create', function() {
+    return view('backend.permissions.create');
+})->name('permission.create');
