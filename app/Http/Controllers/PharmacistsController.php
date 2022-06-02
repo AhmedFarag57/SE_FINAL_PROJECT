@@ -81,7 +81,7 @@ class PharmacistsController extends Controller
             'period' => $request->period
         ]);
 
-        //$user->assignRole('pharmacists');
+        //$user->assignRole('Pharmacist');
         
         return redirect('/pharmacists');
     }

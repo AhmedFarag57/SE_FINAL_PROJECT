@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use App\Models\Patient;
-use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,13 +31,13 @@ class HomeController extends Controller
         $user = Auth::user();
 
         if ($user->hasRole('Admin')) {
-            $doctor = Doctor::latest()->get();
+            $doctors = Doctor::latest()->get();
             //$doctor = Doctor::latest()->get();
-            $patient = Patient::latest()->get();
+            $patients = Patient::latest()->get();
 
             return view('home')->with([
-                'doctor' => $doctor,
-                'patient' => $patient
+                'doctors' => $doctors,
+                'patients' => $patients
             ]);
 
         } elseif ($user->hasRole('Doctor')) {
@@ -56,7 +55,6 @@ class HomeController extends Controller
         } else {
             return 'NO ROLE ASSIGNED YET!';
         }
-
     }
 
     /**

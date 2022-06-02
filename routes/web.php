@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NursesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PharmacistsController;
@@ -28,6 +27,7 @@ Route::get('/', function() {
 });
 
 Auth::routes();
+
 
 //Route::get('/login', [LoginController::class, 'index'])->name('login');
 

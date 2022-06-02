@@ -22,7 +22,7 @@
             <div class="flex flex-wrap items-center uppercase text-sm font-semibold bg-gray-300 text-gray-600 rounded-tl rounded-tr">
                 <div class="w-2/12 px-4 py-3">Name</div>
                 <div class="w-2/12 px-4 py-3">Phone</div>
-                <div class="w-3/12 px-4 py-3">Department</div>
+                <div class="w-2/12 px-4 py-3">Gender</div>
                 <div class="w-3/12 px-4 py-3">Period</div>
                 <div class="w-2/12 px-4 py-3">Action</div>
             </div>
@@ -33,7 +33,7 @@
 
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $receptionist->name }}</div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $receptionist->phone }}</div>
-                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $receptionist->department->name }}</div>
+                    <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $receptionist->gender }}</div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         @if($receptionist->period == "8to4")
                             8:00am - 4:00pm
@@ -63,8 +63,6 @@
                             document.getElementById('delete-form-{{ $receptionist->id }}').submit();">
                             <svg class="h-3 w-3 fill-current text-gray-100" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" class="svg-inline--fa fa-trash fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg>
                         </a>
-                        
-
                     </div>
 
                 </div>

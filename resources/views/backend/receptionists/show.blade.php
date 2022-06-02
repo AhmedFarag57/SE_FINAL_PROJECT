@@ -5,7 +5,7 @@
 
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h2 class="text-gray-700 uppercase font-bold">Receptionist, {{ $receptionist->name }}</h2>
+                <h2 class="text-gray-700 uppercase font-bold">Show Receptionist</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <a href="{{ route('receptionists.index') }}" class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded ml-3">
@@ -124,25 +124,12 @@
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                            Department
-                        </label>
-                    </div>
-                    <div class="md:w-2/3">
-                        <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            {{ $receptionist->department->name }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="md:flex md:items-center mb-6">
-                    <div class="md:w-1/3">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
                             Period
                         </label>
                     </div>
                     <div class="md:w-2/3">
                         <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            @if($receptionist->period == "8to4")
+                            @if ($receptionist->period == "8to4")
                                 8:00am - 4:00pm
                             @elseif ($receptionist->period == "4to12")
                                 4:00pm - 12:00am

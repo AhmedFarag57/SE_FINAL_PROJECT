@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-/**use App\Models\Department;*/
 use App\Models\User;
 use App\Models\Receptionist;
 use Illuminate\Support\Str;
@@ -22,7 +21,6 @@ class ReceptionistsController extends Controller
         // $receptionists = DB::select('SELECT * FROM receptionists');
 
         //$receptionists = Receptionist::all();
-        
 
         $receptionists = Receptionist::orderBy('id', 'asc')->paginate(10);
         return view('backend.receptionists.index')->with('receptionists', $receptionists);
@@ -33,11 +31,10 @@ class ReceptionistsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /**  public function create()
-   * {
-    *    $departments = Department::all();
-    *    return view('backend.doctors.create')->with('departments', $departments);
-    *}*/
+    public function create()
+    {
+        return view('backend.receptionists.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -57,7 +54,6 @@ class ReceptionistsController extends Controller
             'address' => 'required|string|max:255',
             'salary' => 'required|numeric',
             'period' => 'required|string'
-           
         ]);
 
         $user = User::create([
@@ -86,7 +82,6 @@ class ReceptionistsController extends Controller
             'address' => $request->address,
             'salary' => $request->salary,
             'period' => $request->period
-            /**'dep_id' => $request->dep_id*/
         ]);
 
         //$user->assignRole('Receptionist');
@@ -102,7 +97,7 @@ class ReceptionistsController extends Controller
      */
     public function show($id)
     {
-        $receptionist =  Receptionist::find($id);
+        $receptionist = Receptionist::find($id);
         return view('backend.receptionists.show')->with('receptionist', $receptionist);
     }
 
@@ -115,11 +110,7 @@ class ReceptionistsController extends Controller
     public function edit($id)
     {
         $receptionist = Receptionist::find($id);
-       /**  $departments = Department::all();*/
-        return view('backend.receptionists.edit')->with([
-            'receptionist' => $receptionist,
-         /**  'departments' => $departments*/
-        ]);
+        return view('backend.receptionists.edit')->with('receptionist', $receptionist);
     }
 
     /**
@@ -141,8 +132,7 @@ class ReceptionistsController extends Controller
             'dateofbirth' => 'required|date',
             'address' => 'required|string|max:255',
             'salary' => 'required|numeric',
-            'period' => 'required|string',
-            /**'dep_id' => 'required|numeric'*/
+            'period' => 'required|string'
         ]);
 
         $user = User::findOrFail($receptionist->user_id);
@@ -168,8 +158,7 @@ class ReceptionistsController extends Controller
             'dateofbirth' => $request->dateofbirth,
             'address' => $request->address,
             'salary' => $request->salary,
-            'period' => $request->period,
-           /**  'dep_id' => $request->dep_id*/
+            'period' => $request->period
         ]);
 
         return redirect('/receptionists');

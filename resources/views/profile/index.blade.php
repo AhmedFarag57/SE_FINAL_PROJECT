@@ -27,7 +27,7 @@
                             </label>
                         </div>
                         <div class="md:w-2/3">
-                            <span class="block text-gray-600 font-bold">{{ auth()->name }}</span>
+                            <span class="block text-gray-600 font-bold">{{ auth()->user()->name }}</span>
                         </div>
                     </div>
                     <div class="md:flex md:items-center mb-4">
