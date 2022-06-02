@@ -8,6 +8,7 @@ use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PharmacistsController;
+use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ReceptionistsController;
 
 /*
@@ -26,7 +27,7 @@ Route::get('/', function() {
     return redirect('/login');
 });
 
-Auth::routes();
+//Auth::routes();
 
 
 //Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -100,6 +101,23 @@ Route::post('/departments/store', [DepartmentsController::class, 'store'])->name
 Route::get('/departments/{id}/edit', [DepartmentsController::class, 'edit'])->name('departments.edit')->where('id', '[0-9]+');
 Route::put('/departments/{id}/update', [DepartmentsController::class, 'update'])->name('departments.update')->where('id', '[0-9]+');
 Route::delete('/departments/{id}/destroy', [DepartmentsController::class, 'destroy'])->name('departments.destroy')->where('id', '[0-9]+');
+
+
+
+
+
+
+// Pharmacy
+Route::get('/pharmacy', [PharmacyController::class, 'index'])->name('pharmacy.index');
+Route::get('/pharmacy/{id}', [PharmacyController::class, 'show'])->name('pharmacy.show')->where('id', '[0-9]+');
+Route::get('/pharmacy/medicine/create', [PharmacyController::class, 'create'])->name('medicines.create');
+Route::post('/pharmacy/store', [PharmacyController::class, 'store'])->name('pharmacy.store');
+Route::get('/pharmacy/medicine/{id}/edit', [PharmacyController::class, 'edit'])->name('medicines.edit')->where('id', '[0-9]+');
+Route::put('/pharmacy/{id}/update', [PharmacyController::class, 'update'])->name('pharmacy.update')->where('id', '[0-9]+');
+Route::delete('/pharmacy/{id}/destroy', [PharmacyController::class, 'destroy'])->name('pharmacy.destroy')->where('id', '[0-9]+');
+
+
+
 
 
 Route::get('/assignRole', function() {
