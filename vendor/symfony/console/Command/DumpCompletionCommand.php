@@ -61,11 +61,7 @@ to use shell autocompletion (currently, bash and fish completion is supported).
 
 Dump the script to a global completion file and restart your shell:
 
-<<<<<<< HEAD
     <info>%command.full_name% {$shell} | sudo tee {$completionFile}</>
-=======
-    <info>%command.full_name% bash | sudo tee /etc/bash_completion.d/{$commandName}</>
->>>>>>> f980968279d48cb11ed9355e65c844aa2b6eed18
 
 Or dump the script to a local file and source it:
 
@@ -82,11 +78,7 @@ Or dump the script to a local file and source it:
 
 Add this to the end of your shell configuration file (e.g. <info>"{$rcFile}"</>):
 
-<<<<<<< HEAD
     <info>eval "$({$fullCommand} completion {$shell})"</>
-=======
-    <info>eval "$({$fullCommand} completion bash)"</>
->>>>>>> f980968279d48cb11ed9355e65c844aa2b6eed18
 EOH
             )
             ->addArgument('shell', InputArgument::OPTIONAL, 'The shell type (e.g. "bash"), the value of the "$SHELL" env var will be used if this is not given', null, $this->getSupportedShells(...))
