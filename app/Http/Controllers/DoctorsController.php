@@ -94,7 +94,7 @@ class DoctorsController extends Controller
             'dep_id' => $request->dep_id
         ]);
 
-        //$user->assignRole('Doctor');
+        $user->assignRole('Doctor');
         
         return redirect('/doctors');
     }
@@ -193,7 +193,7 @@ class DoctorsController extends Controller
 
         $user->doctor()->delete();
 
-        //$user->removeRole('Doctor');
+        $user->removeRole('Doctor');
         if ($user->delete()) {
             if($user->profile_picture != 'avatar.png') {
                 $image_path = public_path() . '/images/profile/' . $user->profile_picture;

@@ -102,21 +102,16 @@ Route::get('/departments/{id}/edit', [DepartmentsController::class, 'edit'])->na
 Route::put('/departments/{id}/update', [DepartmentsController::class, 'update'])->name('departments.update')->where('id', '[0-9]+');
 Route::delete('/departments/{id}/destroy', [DepartmentsController::class, 'destroy'])->name('departments.destroy')->where('id', '[0-9]+');
 
-
-
-
-
-
 // Pharmacy
 Route::get('/pharmacy', [PharmacyController::class, 'index'])->name('pharmacy.index');
-Route::get('/pharmacy/{id}', [PharmacyController::class, 'show'])->name('pharmacy.show')->where('id', '[0-9]+');
-Route::get('/pharmacy/medicine/create', [PharmacyController::class, 'create'])->name('medicines.create');
-Route::post('/pharmacy/store', [PharmacyController::class, 'store'])->name('pharmacy.store');
-Route::get('/pharmacy/medicine/{id}/edit', [PharmacyController::class, 'edit'])->name('medicines.edit')->where('id', '[0-9]+');
-Route::put('/pharmacy/{id}/update', [PharmacyController::class, 'update'])->name('pharmacy.update')->where('id', '[0-9]+');
-Route::delete('/pharmacy/{id}/destroy', [PharmacyController::class, 'destroy'])->name('pharmacy.destroy')->where('id', '[0-9]+');
-
-
+Route::get('/pharmacy/add', [PharmacyController::class, 'addToPharmacy'])->name('pharmacy.add');
+Route::post('/pharmacy/store', [PharmacyController::class, 'storeToPharmacy'])->name('pharmacy.store');
+Route::get('/pharmacy/medicines/{id}', [PharmacyController::class, 'show'])->name('medicines.show')->where('id', '[0-9]+');
+Route::get('/pharmacy/medicines/create', [PharmacyController::class, 'create'])->name('medicines.create');
+Route::post('/pharmacy/medicines/store', [PharmacyController::class, 'store'])->name('medicines.store');
+Route::get('/pharmacy/medicines/{id}/edit', [PharmacyController::class, 'edit'])->name('medicines.edit')->where('id', '[0-9]+');
+Route::put('/pharmacy/medicines/{id}/update', [PharmacyController::class, 'update'])->name('medicines.update')->where('id', '[0-9]+');
+Route::delete('/pharmacy/medicines/{id}/destroy', [PharmacyController::class, 'destroy'])->name('medicines.destroy')->where('id', '[0-9]+');
 
 
 
@@ -127,8 +122,6 @@ Route::get('/assignRole', function() {
 Route::get('/assignRole/create', function() {
     return view('backend.assignrole.create');
 })->name('assignrole.create');
-
-
 
 Route::get('/roles-permissions', function() {
     return view('backend.permissions.edit');
