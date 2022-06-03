@@ -18,6 +18,6 @@ class Medicine extends Model
 
     // Relationship to Pharmacy
     public function pharmacy(){
-        return $this->belongsTo(Pharmacy::class, 'medicine_id');
+        return $this->hasOne(Pharmacy::class, 'medicine_id');
     }
 }

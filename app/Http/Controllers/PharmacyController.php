@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Pharmacy;
 use App\Models\Medicine;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Pharmacy;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PharmacyController extends Controller
 {
@@ -18,8 +16,36 @@ class PharmacyController extends Controller
      */
     public function index()
     {
-        $medicine = Pharmacy::orderBy('id', 'asc')->paginate(10);
-        return view('backend.pharmacy.index')->with('pharmacy', $medicine);
+        $medicines = DB::table('pharmacy')->join('medicines', 'pharmacy.medicine_id', '=', 'medicines.id')->paginate(10);
+        return view('backend.pharmacy.index')->with('medicines', $medicines);
+    }
+
+    public function addToPharmacy() {
+        
+        $medicines = Medicine::all();
+
+        if ($medicines->isEmpty()) {
+            return redirect('/pharmacy/medicines/create');
+        }
+
+        return view('backend.pharmacy.add')->with('medicines', $medicines);
+    }
+
+    public function storeToPharmacy(Request $request) {
+
+        $this->validate($request, [
+            'medicine_id' => 'required|numeric',
+            'quantity' => 'required|numeric'
+        ]);
+
+        $pharmacy = new Pharmacy;
+
+        $pharmacy->medicine_id = $request->input('medicine_id');
+        $pharmacy->quantity = $request->input('quantity');
+
+        $pharmacy->save();
+
+        return redirect('/pharmacy');
     }
 
     /**
@@ -41,23 +67,20 @@ class PharmacyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            
-            'medicine_id' => 'required|numeric',
-            'quantity' => 'required|numeric'
-            
+            'name' => 'required|string|max:255',
+            'manufacturar' => 'required|string|max:255',
+            'price' => 'required|numeric'
         ]);
        
-       
         $medicine  = new Medicine();
-        $medicine ->name = $request->input('name');
-        $medicine ->manufacturar = $request->input('manufacturar');
-        $medicine ->price = $request->input('price');
-        $medicine ->quantity = $request->input('quantity');
 
-        $medicine ->save();
-        
+        $medicine->name = $request->input('name');
+        $medicine->manufacturar = $request->input('manufacturar');
+        $medicine->price = $request->input('price');
+
+        $medicine->save();
        
-        return redirect('/pharmacy');
+        return redirect('/pharmacy/add');
     }
 
     /**
@@ -68,7 +91,8 @@ class PharmacyController extends Controller
      */
     public function show($id)
     {
-        //
+        $medicine = Medicine::find($id);
+        return view('backend.medicines.show')->with('medicine', $medicine);
     }
 
     /**
@@ -79,9 +103,8 @@ class PharmacyController extends Controller
      */
     public function edit($id)
     {
-        $pharmacy = Pharmacy::find($id);
-
-        return view('backend.medicines.edit')->with('pharmacy', $pharmacy);
+        $medicine = Medicine::find($id);
+        return view('backend.medicines.edit')->with('medicine', $medicine);
     }
 
     /**
@@ -93,29 +116,21 @@ class PharmacyController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $pharmacy = Pharmacy::find($id);
         $this->validate($request, [
-            'medicine_id' => 'required|numeric',
-            'quantity' => 'required|numeric'
-            
+            'name' => 'required|string|max:255',
+            'manufacturar' => 'required|string|max:255',
+            'price' => 'required|numeric'
         ]);
-      
        
-        $medicine  = new Medicine();
-        $medicine ->name = $request->input('name');
-        $medicine ->manufacturar = $request->input('manufacturar');
-        $medicine ->price = $request->input('price');
-        $medicine ->quantity = $request->input('quantity');
+        $medicine  = Medicine::find($id);
 
-        $medicine ->save();
-        
+        $medicine->name = $request->input('name');
+        $medicine->manufacturar = $request->input('manufacturar');
+        $medicine->price = $request->input('price');
 
-        
+        $medicine->save(); 
        
         return redirect('/pharmacy');
-
-
     }
 
     /**
@@ -126,12 +141,10 @@ class PharmacyController extends Controller
      */
     public function destroy($id)
     {
-        $pharmacy = Pharmacy::find($id);
+        $medicine = Medicine::find($id);
         
-
-        $pharmacy()->delete();
+        $medicine->delete();
 
         return redirect('/pharmacy');
-    
     }
 }

@@ -44,15 +44,12 @@ final class DumpCompletionCommand extends Command
         $fullCommand = $_SERVER['PHP_SELF'];
         $commandName = basename($fullCommand);
         $fullCommand = @realpath($fullCommand) ?: $fullCommand;
-<<<<<<< HEAD
 
         $shell = $this->guessShell();
         [$rcFile, $completionFile] = match ($shell) {
             'fish' => ['~/.config/fish/config.fish', "/etc/fish/completions/$commandName.fish"],
             default => ['~/.bashrc', "/etc/bash_completion.d/$commandName"],
         };
-=======
->>>>>>> f980968279d48cb11ed9355e65c844aa2b6eed18
 
         $this
             ->setHelp(<<<EOH
