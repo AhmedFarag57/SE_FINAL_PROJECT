@@ -44,11 +44,11 @@ class HomeController extends Controller
             
             return view('home');
 
-        } elseif ($user->hasRole('Rec')) {
+        } elseif ($user->hasRole('Receptionist')) {
 
             return view('home');
 
-        } elseif ($user->hasRole('Pha')) {
+        } elseif ($user->hasRole('Pharmacist')) {
 
             return view('home');
 
@@ -90,13 +90,13 @@ class HomeController extends Controller
 
         $user = auth()->user();
 
-        // $user->update([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'profile_picture' => $profile
-        // ]);
+        $user->update([
+            'name'              => $request->name,
+            'email'             => $request->email,
+            'profile_picture'   => $profile
+        ]);
 
-        return redirect('/profile');
+        return redirect()->route('profile');
     }
 
     /**
@@ -137,6 +137,6 @@ class HomeController extends Controller
 
         Auth::logout();
 
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }
