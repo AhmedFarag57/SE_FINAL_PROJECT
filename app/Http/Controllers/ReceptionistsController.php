@@ -17,11 +17,6 @@ class ReceptionistsController extends Controller
      */
     public function index()
     {
-        // use DB;
-        // $receptionists = DB::select('SELECT * FROM receptionists');
-
-        //$receptionists = Receptionist::all();
-
         $receptionists = Receptionist::orderBy('id', 'asc')->paginate(10);
         return view('backend.receptionists.index')->with('receptionists', $receptionists);
     }
@@ -57,6 +52,7 @@ class ReceptionistsController extends Controller
         ]);
 
         $user = User::create([
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -75,7 +71,6 @@ class ReceptionistsController extends Controller
 
 
         $user->receptionist()->create([
-            'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
             'dateofbirth' => $request->dateofbirth,
@@ -84,7 +79,7 @@ class ReceptionistsController extends Controller
             'period' => $request->period
         ]);
 
-        //$user->assignRole('Receptionist');
+        $user->assignRole('Receptionist');
         
         return redirect('/receptionists');
     }
@@ -146,13 +141,13 @@ class ReceptionistsController extends Controller
         }
 
         $user->update([
+            'name' => $request->name,
             'email' => $request->email,
             'profile_picture' => $profile
         ]);
 
 
         $user->receptionist()->update([
-            'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
             'dateofbirth' => $request->dateofbirth,
@@ -177,7 +172,7 @@ class ReceptionistsController extends Controller
 
         $user->receptionist()->delete();
 
-        //$user->removeRole('Receptionist');
+        $user->removeRole('Receptionist');
         if ($user->delete()) {
             if($user->profile_picture != 'avatar.png') {
                 $image_path = public_path() . '/images/profile/' . $user->profile_picture;

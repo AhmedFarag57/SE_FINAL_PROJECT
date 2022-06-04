@@ -11,7 +11,6 @@ class Receptionist extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
         'gender',
         'salary',
         'phone',

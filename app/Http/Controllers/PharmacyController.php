@@ -16,7 +16,7 @@ class PharmacyController extends Controller
      */
     public function index()
     {
-        $medicines = DB::table('pharmacy')->join('medicines', 'pharmacy.medicine_id', '=', 'medicines.id')->paginate(10);
+        $medicines = DB::table('pharmacies')->join('medicines', 'pharmacies.medicine_id', '=', 'medicines.id')->paginate(10);
         return view('backend.pharmacy.index')->with('medicines', $medicines);
     }
 

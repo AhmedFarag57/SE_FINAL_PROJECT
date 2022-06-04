@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('receptionists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
             $table->enum('gender',['male', 'female']);
             $table->decimal('salary',9,3);
             $table->string('phone');

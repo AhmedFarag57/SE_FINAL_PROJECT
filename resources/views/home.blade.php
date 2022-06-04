@@ -14,8 +14,7 @@
                 </a>
             </div>
         </div>
-        @include('dashboard.admin')
-    {{--
+
         @role('Admin')
             @include('dashboard.admin')
         @endrole
@@ -31,7 +30,7 @@
         @role('Pharmacist')
             @include('dashboard.pharmacist')
         @endrole
-    --}}
+        
     </div>
 
 @endsection

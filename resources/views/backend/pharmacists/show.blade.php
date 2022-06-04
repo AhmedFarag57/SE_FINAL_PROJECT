@@ -39,7 +39,7 @@
                     </div>
                     <div class="md:w-2/3">
                         <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            {{ $pharmacist->name }}
+                            {{ $pharmacist->user->name }}
                         </div>
                     </div>
                 </div>

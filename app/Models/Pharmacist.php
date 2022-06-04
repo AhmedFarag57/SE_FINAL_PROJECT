@@ -11,7 +11,6 @@ class Pharmacist extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
         'gender',
         'salary',
         'phone',

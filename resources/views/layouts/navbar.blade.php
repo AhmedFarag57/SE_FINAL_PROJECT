@@ -1,10 +1,10 @@
 <div class="bg-blue-700 px-4 sm:px-6 py-3 flex items-center justify-between shadow h-16 fixed top-0 left-0 right-0 z-50">
     <div class="flex items-center text-white">
-        <svg class="fill-current h-6 w-6 mr-2 feather feather-book-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        <svg class="fill-current h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M384 32H64C28.65 32 0 60.65 0 96v320c0 35.35 28.65 64 64 64h320c35.35 0 64-28.65 64-64V96C448 60.65 419.3 32 384 32zM336 360c0 13.25-10.75 24-24 24S288 373.3 288 360v-80H160v80C160 373.3 149.3 384 136 384S112 373.3 112 360v-208C112 138.8 122.8 128 136 128S160 138.8 160 152v80h128v-80C288 138.8 298.8 128 312 128s24 10.75 24 24V360z"/></svg>
         <span class="font-semibold text-sm sm:text-xl tracking-tight">HOSPITAL MS</span>
     </div>
     <div class="relative">
-        {{--
+        
         @auth
             <div class="flex items-center cursor-pointer" id="opennavdropdown">
                 <img class="w-8 h-8 rounded-full mr-2" src="{{ asset('images/profile/' . auth()->user()->profile_picture) }}" alt="Avatar">
@@ -40,6 +40,6 @@
                 @endif
             </div>
         @endauth
-        --}}
+        
     </div>
 </div>

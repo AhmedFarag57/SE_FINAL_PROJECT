@@ -18,12 +18,6 @@ class DoctorsController extends Controller
      */
     public function index()
     {
-        // use DB;
-        // $doctors = DB::select('SELECT * FROM docotrs');
-
-        //$doctors = Doctor::all();
-        
-
         $doctors = Doctor::orderBy('id', 'asc')->paginate(10);
         return view('backend.doctors.index')->with('doctors', $doctors);
     }
@@ -66,6 +60,7 @@ class DoctorsController extends Controller
         ]);
 
         $user = User::create([
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -84,7 +79,6 @@ class DoctorsController extends Controller
 
 
         $user->doctor()->create([
-            'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
             'dateofbirth' => $request->dateofbirth,
@@ -161,13 +155,13 @@ class DoctorsController extends Controller
         }
 
         $user->update([
+            'name' => $request->name,
             'email' => $request->email,
             'profile_picture' => $profile
         ]);
 
 
         $user->doctor()->update([
-            'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
             'dateofbirth' => $request->dateofbirth,

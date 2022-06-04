@@ -5,7 +5,7 @@
 
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h2 class="text-gray-700 uppercase font-bold">Doctor, {{ $doctor->name }}</h2>
+                <h2 class="text-gray-700 uppercase font-bold">Doctor, {{ $doctor->user->name }}</h2>
             </div>
             <div class="flex flex-wrap items-center">
                 <a href="{{ route('doctors.index') }}" class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded ml-3">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="md:w-2/3">
                         <div class="bg-gray-200 border-2 border-gray-200 rounded w-full py-3 px-4 text-gray-700 leading-tight">
-                            {{ $doctor->name }}
+                            {{ $doctor->user->name }}
                         </div>
                     </div>
                 </div>

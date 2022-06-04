@@ -2,14 +2,17 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NursesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
-use App\Http\Controllers\DepartmentsController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PharmacistsController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\AssignRoleController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\PharmacistsController;
 use App\Http\Controllers\ReceptionistsController;
+use App\Http\Controllers\RolePermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +30,9 @@ Route::get('/', function() {
     return redirect('/login');
 });
 
-//Auth::routes();
-
-
+Auth::routes();
 //Route::get('/login', [LoginController::class, 'index'])->name('login');
+//Route::post('/login', [LoginController::class, 'store']);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
@@ -39,6 +41,29 @@ Route::put('/profile/update', [HomeController::class, 'profileUpdate'])->name('p
 Route::get('/profile/changepassword', [HomeController::class, 'changePassword'])->name('profile.change.password');
 Route::post('/profile/changepassword', [HomeController::class, 'updatePassword'])->name('profile.changepassword');
 
+// Roles & Permissions
+Route::get('/roles-permissions', [RolePermissionController::class, 'rolesIndex'])->name('roles-permissions');
+
+// Roles
+Route::get('/roles/create', [RolePermissionController::class, 'rolesCreate'])->name('roles.create');
+Route::post('/roles/store', [RolePermissionController::class, 'rolesStore'])->name('roles.store');
+Route::get('/roles/{id}/edit', [RolePermissionController::class, 'rolesEdit'])->name('roles.edit');
+Route::put('/roles/{id}/update', [RolePermissionController::class, 'rolesUpdate'])->name('roles.update');
+
+// Permissons
+Route::get('/permissions/create', [RolePermissionController::class, 'permissionsCreate'])->name('permissions.create');
+Route::post('/permissions/store', [RolePermissionController::class, 'permissionsStore'])->name('permissions.store');
+Route::get('/permissions/{id}/edit', [RolePermissionController::class, 'permissionsEdit'])->name('permissions.edit');
+Route::put('/permissions/{id}/update', [RolePermissionController::class, 'permissionsUpdate'])->name('permissions.update');
+
+// Assign Role
+Route::get('/assign-role', [AssignRoleController::class, 'index'])->name('assign-role.index');
+Route::get('/assign-role/{id}', [AssignRoleController::class, 'show'])->name('assign-role.show')->where('id', '[0-9]+');
+Route::get('/assign-role/create', [AssignRoleController::class, 'create'])->name('assign-role.create');
+Route::post('/assign-role/store', [AssignRoleController::class, 'store'])->name('assign-role.store');
+Route::get('/assign-role/{id}/edit', [AssignRoleController::class, 'edit'])->name('assign-role.edit')->where('id', '[0-9]+');
+Route::put('/assign-role/{id}/update', [AssignRoleController::class, 'update'])->name('assign-role.update')->where('id', '[0-9]+');
+Route::delete('/assign-role/{id}/destroy', [AssignRoleController::class, 'destroy'])->name('assign-role.destroy')->where('id', '[0-9]+');
 
 Route::group(['middleware' => ['auth', 'role:Admin']], function() {
 
@@ -113,20 +138,3 @@ Route::get('/pharmacy/medicines/{id}/edit', [PharmacyController::class, 'edit'])
 Route::put('/pharmacy/medicines/{id}/update', [PharmacyController::class, 'update'])->name('medicines.update')->where('id', '[0-9]+');
 Route::delete('/pharmacy/medicines/{id}/destroy', [PharmacyController::class, 'destroy'])->name('medicines.destroy')->where('id', '[0-9]+');
 
-
-
-Route::get('/assignRole', function() {
-    return view('backend.assignrole.index');
-})->name('assignrole.index');
-
-Route::get('/assignRole/create', function() {
-    return view('backend.assignrole.create');
-})->name('assignrole.create');
-
-Route::get('/roles-permissions', function() {
-    return view('backend.permissions.edit');
-})->name('roles-permissions');
-
-Route::get('/permission/create', function() {
-    return view('backend.permissions.create');
-})->name('permission.create');

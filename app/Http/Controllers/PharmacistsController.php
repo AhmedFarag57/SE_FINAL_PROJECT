@@ -54,6 +54,7 @@ class PharmacistsController extends Controller
         ]);
 
         $user = User::create([
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -72,7 +73,6 @@ class PharmacistsController extends Controller
 
 
         $user->pharmacist()->create([
-            'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
             'dateofbirth' => $request->dateofbirth,
@@ -81,7 +81,7 @@ class PharmacistsController extends Controller
             'period' => $request->period
         ]);
 
-        //$user->assignRole('Pharmacist');
+        $user->assignRole('Pharmacist');
         
         return redirect('/pharmacists');
     }
@@ -144,13 +144,13 @@ class PharmacistsController extends Controller
         }
 
         $user->update([
+            'name' => $request->name,
             'email' => $request->email,
             'profile_picture' => $profile
         ]);
 
 
         $user->pharmacist()->update([
-            'name' => $request->name,
             'phone' => $request->phone,
             'gender' => $request->gender,
             'dateofbirth' => $request->dateofbirth,
@@ -176,7 +176,7 @@ class PharmacistsController extends Controller
 
         $user->pharmacist()->delete();
 
-        //$user->removeRole('Pharmacist');
+        $user->removeRole('Pharmacist');
         
         if ($user->delete()) {
             if($user->profile_picture != 'avatar.png') {

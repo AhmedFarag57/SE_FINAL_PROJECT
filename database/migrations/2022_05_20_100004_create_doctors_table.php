@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('dep_id');
-            $table->string('name');
             $table->enum('gender',['male', 'female']);
             $table->date('dateofbirth');
             $table->decimal('salary',9,3);

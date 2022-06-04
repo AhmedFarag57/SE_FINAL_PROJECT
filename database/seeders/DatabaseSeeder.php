@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,14 +20,13 @@ class DatabaseSeeder extends Seeder
         
         $this->call(RolesAndPermissionsSeeder::class);
 
-        $user = User::create([
+        $admin = User::create([
             'name'          => 'Admin',
             'email'         => 'admin@gmail.com',
-            'password'      => bcrypt('12345678'),
+            'password'      => bcrypt('123456789'),
             'created_at'    => date("Y-m-d H:i:s")
         ]);
-        $user->assignRole('Admin');
 
-
+        $admin->assignRole('Admin');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -37,4 +38,31 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    // /**
+    //  * LOGIN SHOW
+    //  */
+    // public function index() 
+    // {
+    //     return view('auth.login');
+    // }
+
+    // /**
+    //  * LOGIN STORE
+    //  */
+    // public function store(Request $request) 
+    // {
+    //     $this->validate($request, [
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //     ]);
+
+    //     if (!auth()->attempt($request->only('email', 'password'))) {
+
+    //         return back()->with('status', 'Invalid login detils');
+    //     }
+
+    //     return redirect()->route('home');
+    // }
+
 }
