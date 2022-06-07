@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('medicine_bills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prescription_id')->constrained()->onDelete('cascade');
+            $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->text('medicines_id');
             $table->decimal('total',9,3);
             $table->timestamps();

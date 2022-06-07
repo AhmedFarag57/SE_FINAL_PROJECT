@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Pharmacist;
+use App\Models\Receptionist;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,19 +43,34 @@ class HomeController extends Controller
             ]);
 
         } elseif ($user->hasRole('Doctor')) {
-            
-            return view('home');
+
+            $doctor = Doctor::with([])->findOrFail($user->doctor->id);
+
+            return view('home')->with('doctor', $doctor);
 
         } elseif ($user->hasRole('Receptionist')) {
 
-            return view('home');
+            $receptionist = Receptionist::find($user->receptionist->id);
+            
+            return view('home')->with('receptionist', $receptionist);
 
         } elseif ($user->hasRole('Pharmacist')) {
 
-            return view('home');
+            $pharmacist = Pharmacist::find($user->pharmacist->id);
+
+            return view('home')->with('pharmacist', $pharmacist);
 
         } else {
-            return 'NO ROLE ASSIGNED YET!';
+            $title = 'Error';
+            $message = 'The signed in user is not assigned to a role for the application';
+            $route = 'home';
+            $action = 'Back to Home.';
+            return view('errors.message')->with([
+                'title' => $title,
+                'message' => $message,
+                'route' => $route,
+                'action' => $action
+            ]);
         }
     }
 

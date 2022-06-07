@@ -130,8 +130,8 @@ class RolePermissionController extends Controller
         ]);
 
         $permission = Permission::findById($id);
-        //$permission->update(['name' => $request->name]);
-        //$permission->syncRoles($request->selectedroles);
+        $permission->update(['name' => $request->name]);
+        $permission->syncRoles($request->selectedroles);
 
         return redirect('/roles-permissions');
     }

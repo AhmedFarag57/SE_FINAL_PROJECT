@@ -85,6 +85,6 @@ class MedicinesController extends Controller
      */
     public function search($name)
     {
-        return Medicine::where()->get();
+        return Medicine::where('name', 'like', '%'.$name.'%')->get();
     }
 }

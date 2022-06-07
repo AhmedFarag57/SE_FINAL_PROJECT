@@ -23,7 +23,7 @@
                     <div class="md:flex md:items-center mb-4">
                         <div class="md:w-1/3">
                             <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                                Name : 
+                                Name:
                             </label>
                         </div>
                         <div class="md:w-2/3">
@@ -33,7 +33,7 @@
                     <div class="md:flex md:items-center mb-4">
                         <div class="md:w-1/3">
                             <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                                Email :
+                                Email:
                             </label>
                         </div>
                         <div class="md:w-2/3">
@@ -43,7 +43,7 @@
                     <div class="md:flex md:items-center mb-4">
                         <div class="md:w-1/3">
                             <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                                Role :
+                                Role:
                             </label>
                         </div>
                         <div class="md:w-2/3">

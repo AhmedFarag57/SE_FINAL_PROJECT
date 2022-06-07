@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id');
             $table->foreignId('doc_id');
-            $table->timestamp('time');
+            $table->boolean('appointment_status');
+            $table->date('appointment_date');
+            $table->text('diagnosis');
+            
             $table->timestamps();
         });
     }

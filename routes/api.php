@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\MedicinesController;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
@@ -16,13 +17,45 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 // Route::resource('medicines', MedicinesController::class);
 
+/**
+ *  PUBLIC API
+ */
+
+// Login
+Route::post('/login', [AuthController::class, 'login']);
+
+// Show all the medicines
 Route::get('/medicines', [MedicinesController::class, 'index']);
-Route::post('/medicines', [MedicinesController::class, 'store']);
+
+// Show specific medicine
 Route::get('/medicines/{id}', [MedicinesController::class, 'show']);
-Route::put('/medicines/{id}', [MedicinesController::class, 'update']);
-Route::delete('/medicines/{id}', [MedicinesController::class, 'destroy']);
+
+// Search about medicine by name
+Route::get('/medicines/search/{name}', [MedicinesController::class, 'search']);
+
+/**
+ *  PROTECTED API
+ */
+
+Route::group(['middleware' => ['auth:sanctum']], function() {
+
+    // Create new medicine
+    Route::post('/medicines', [MedicinesController::class, 'store']);
+
+    // Update specific medicine
+    Route::put('/medicines/{id}', [MedicinesController::class, 'update']);
+
+    // Delete specific medicine
+    Route::delete('/medicines/{id}', [MedicinesController::class, 'destroy']);
+
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+});
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

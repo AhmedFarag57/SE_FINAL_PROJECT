@@ -20,18 +20,29 @@ class PharmacyController extends Controller
         return view('backend.pharmacy.index')->with('medicines', $medicines);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexMedicines()
+    {
+        $medicines = Medicine::orderBy('id', 'asc')->paginate(10);
+        return view('backend.medicines.index')->with('medicines', $medicines);
+    }
+
     public function addToPharmacy() {
         
         $medicines = Medicine::all();
 
         if ($medicines->isEmpty()) {
-            return redirect('/pharmacy/medicines/create');
+            return redirect()->route('medicines.create');
         }
 
         return view('backend.pharmacy.add')->with('medicines', $medicines);
     }
 
-    public function storeToPharmacy(Request $request) {
+    public function store(Request $request) {
 
         $this->validate($request, [
             'medicine_id' => 'required|numeric',
@@ -45,7 +56,7 @@ class PharmacyController extends Controller
 
         $pharmacy->save();
 
-        return redirect('/pharmacy');
+        return redirect()->route('pharmacy.index');
     }
 
     /**
@@ -53,7 +64,7 @@ class PharmacyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createMedicines()
     {
         return view('backend.medicines.create');
     }
@@ -64,7 +75,7 @@ class PharmacyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeMedicines(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
@@ -80,7 +91,7 @@ class PharmacyController extends Controller
 
         $medicine->save();
        
-        return redirect('/pharmacy/add');
+        return redirect()->route('medicines.index');
     }
 
     /**
@@ -89,7 +100,7 @@ class PharmacyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showMedicines($id)
     {
         $medicine = Medicine::find($id);
         return view('backend.medicines.show')->with('medicine', $medicine);
@@ -103,6 +114,41 @@ class PharmacyController extends Controller
      */
     public function edit($id)
     {
+        $pharmacy = Pharmacy::find($id);
+        $medicine = DB::table('pharmacies')->join('medicines', 'pharmacies.medicine_id', '=', 'medicines.id')->where('medicines.id', '=', $id)->get(['pharmacies.id', 'medicines.name', 'pharmacies.quantity']);
+        return view('backend.pharmacy.edit')->with('medicine', $medicine);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'quantity' => 'required|numeric'
+        ]);
+
+        $pharmacy = Pharmacy::find($id);
+        
+        $pharmacy->quantity = $request->input('quantity');
+
+        $pharmacy->save();
+        
+        return redirect()->route('pharmacy.index');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editMedicines($id)
+    {
         $medicine = Medicine::find($id);
         return view('backend.medicines.edit')->with('medicine', $medicine);
     }
@@ -114,7 +160,7 @@ class PharmacyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateMedicines(Request $request, $id)
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
@@ -130,21 +176,6 @@ class PharmacyController extends Controller
 
         $medicine->save(); 
        
-        return redirect('/pharmacy');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $medicine = Medicine::find($id);
-        
-        $medicine->delete();
-
-        return redirect('/pharmacy');
+        return redirect()->route('medicines.index');
     }
 }

@@ -193,11 +193,3 @@
         
     </div>
 @endsection
-
-@push('scripts')
-<script>
-    $(function() {       
-        $( "#datepicker-tc" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    })
-</script>
-@endpush

@@ -143,9 +143,11 @@
                     <div class="md:w-2/3 block text-gray-600 font-bold">
                         <div class="relative">
                             <select name="dep_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                                <option value="">--Select Department--</option>
+                                <option value="{{ $doctor->dep_id }}">{{ $doctor->department->name }}</option>
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    @if ($department->name != $doctor->department->name)
+                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -209,11 +211,3 @@
         
     </div>
 @endsection
-
-@push('scripts')
-<script>
-    $(function() {       
-        $( "#datepicker-te" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    })
-</script>
-@endpush

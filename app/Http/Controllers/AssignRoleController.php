@@ -105,7 +105,7 @@ class AssignRoleController extends Controller
             'email' => $request->email
         ]);
 
-        $user->syncRoles($request->selectrole);
+        $user->syncRoles($request->selectedrole);
 
         return redirect('/assign-role');
     }

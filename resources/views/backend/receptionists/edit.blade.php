@@ -185,11 +185,3 @@
         
     </div>
 @endsection
-
-@push('scripts')
-<script>
-    $(function() {       
-        $( "#datepicker-te" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    })
-</script>
-@endpush
